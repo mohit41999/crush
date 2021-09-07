@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:crush_notion/Constants/constants.dart';
 import 'package:crush_notion/Model/coinsModel.dart';
 import 'package:crush_notion/Model/myAccountModel.dart';
@@ -10,6 +12,8 @@ import 'package:crush_notion/Screens/myWallet.dart';
 import 'package:crush_notion/Services/myAccountService.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class myAccountPg extends StatefulWidget {
   final Coins getcoins;
@@ -29,6 +33,30 @@ class _myAccountPgState extends State<myAccountPg> {
   late Future<MyAccount> my_account;
   bool loading = true;
   late MyAccount accountdetails;
+
+  Future _getpostImage() async {
+    var image =
+        await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      var request = http.MultipartRequest(
+          "POST",
+          Uri.parse(
+              "http://crush.notionprojects.tech/api/build_your_profile.php"));
+      request.fields['user_id'] = widget.user_id;
+      request.fields['token'] = '123456789';
+      var pic =
+          await http.MultipartFile.fromPath("profile_picture", image.path);
+      request.files.add(pic);
+      var response = await request.send();
+
+      //Get the response from the server
+      var responseData = await response.stream.toBytes();
+      var responseString = String.fromCharCodes(responseData);
+      print(responseString);
+    } else {
+      print('image not selected');
+    }
+  }
 
   @override
   void initState() {
@@ -170,14 +198,30 @@ class _myAccountPgState extends State<myAccountPg> {
                                 accountdetails.data[0].profilePicture),
                           ),
                           Positioned(
-                            child: CircleAvatar(
-                                radius: 15,
-                                backgroundColor: Colors.white,
-                                child: Icon(
-                                  Icons.mode_edit_outline_rounded,
-                                  size: 20,
-                                  color: Colors.black,
-                                )),
+                            child: GestureDetector(
+                              onTap: () {
+                                _getpostImage().then((value) {
+                                  setState(() {
+                                    my_account = myAccountService()
+                                        .get_myAccount(widget.user_id)
+                                        .then((value) {
+                                      setState(() {
+                                        accountdetails = value;
+                                      });
+                                      return accountdetails;
+                                    });
+                                  });
+                                });
+                              },
+                              child: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.mode_edit_outline_rounded,
+                                    size: 20,
+                                    color: Colors.black,
+                                  )),
+                            ),
                             right: 5,
                             top: 85,
                           )
