@@ -113,7 +113,7 @@ class _homePgState extends State<homePg> {
                       ),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 80,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -531,10 +531,10 @@ class homeIconBtn extends StatelessWidget {
                 //     end: Alignment.bottomRight,
                 //     stops: [0.0, 1.0]),
 
-                color: Colors.transparent,
+                color: Colors.grey.withOpacity(0.4),
                 borderRadius: BorderRadius.circular(10)),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 100, sigmaY: 150),
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
               child: Center(
                   child: Icon(
                 icon,

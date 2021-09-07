@@ -272,6 +272,12 @@ class _identifyYourselgPgState extends State<identifyYourselgPg> {
                 ),
                 TextField(
                   controller: namecontroller,
+                  onChanged: (value) {
+                    setState(() {
+                      value = namecontroller.text.toString();
+                      name = value;
+                    });
+                  },
                   onSubmitted: (value) {
                     setState(() {
                       value = namecontroller.text.toString();
