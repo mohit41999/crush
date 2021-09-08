@@ -315,37 +315,46 @@ class _myWalletPgState extends State<myWalletPg> {
             height: MediaQuery.of(context).size.height * 0.09,
             color: appThemeColor,
             width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Date',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'SegoeUI'),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Date',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'SegoeUI'),
+                    ),
                   ),
-                  Text(
-                    'Amount',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'SegoeUI'),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Amount',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'SegoeUI'),
+                    ),
                   ),
-                  Text(
-                    'Remark',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'SegoeUI'),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Remark',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'SegoeUI'),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           (transactionHistory.length == 0)
@@ -353,7 +362,6 @@ class _myWalletPgState extends State<myWalletPg> {
               : Expanded(
                   child: ListView.builder(
                       shrinkWrap: true,
-                      physics: PageScrollPhysics(),
                       itemCount: transactionHistory.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
@@ -361,8 +369,10 @@ class _myWalletPgState extends State<myWalletPg> {
                           children: [
                             Expanded(
                                 child: Center(
-                                    child: Text(
-                                        transactionHistory[index]['date']))),
+                                    child: Text(transactionHistory[index]
+                                            ['date']
+                                        .toString()
+                                        .substring(0, 10)))),
                             Expanded(
                                 child: Center(
                                     child: Text(
