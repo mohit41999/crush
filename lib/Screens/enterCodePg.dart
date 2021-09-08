@@ -108,6 +108,7 @@ class _enterCodePgState extends State<enterCodePg> {
                           });
                         },
                         controller: otpController,
+                        keyboardType: TextInputType.number,
                         cursorColor: Colors.white,
                         textStyle: TextStyle(
                           color: Colors.white,

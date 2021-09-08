@@ -28,7 +28,6 @@ class _generalHomeScreenState extends State<generalHomeScreen> {
   late MyAccount myAccount;
   bool _loading = false;
 
-  late Coins getcoins;
   late int _selectedIndex = widget.selectedindex;
   late String user_id = widget.user_id;
   Color bottom = Colors.white;
@@ -36,15 +35,6 @@ class _generalHomeScreenState extends State<generalHomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      coins = coinsService().getCoins().then((value) {
-        setState(() {
-          getcoins = value;
-          _loading = true;
-        });
-        return getcoins;
-      });
-    });
   }
 
   List<Widget> _pages() => <Widget>[
@@ -56,7 +46,6 @@ class _generalHomeScreenState extends State<generalHomeScreen> {
           user_id: user_id,
         ),
         myAccountPg(
-          getcoins: getcoins,
           user_id: user_id,
         ),
       ];
@@ -69,81 +58,77 @@ class _generalHomeScreenState extends State<generalHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return (!_loading)
-        ? Scaffold(body: Center(child: CircularProgressIndicator()))
-        : Scaffold(
-            extendBody: (_selectedIndex == 0) ? true : false,
-            resizeToAvoidBottomInset: false,
-            bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: Colors.red,
-              unselectedItemColor: (_selectedIndex == 0)
-                  ? Colors.white
-                  : Color(0xff0B0D0F).withOpacity(0.4),
-              selectedItemColor:
-                  (_selectedIndex == 0) ? Colors.white : appThemeColor,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  backgroundColor:
-                      (_selectedIndex == 0) ? Colors.transparent : bottom,
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  backgroundColor:
-                      (_selectedIndex == 0) ? Colors.transparent : bottom,
-                  icon: Icon(Icons.favorite),
-                  label: 'Favourites',
-                ),
-                BottomNavigationBarItem(
-                  backgroundColor:
-                      (_selectedIndex == 0) ? Colors.transparent : bottom,
-                  icon: Icon(Icons.call),
-                  label: 'Calls',
-                ),
-                BottomNavigationBarItem(
-                  backgroundColor:
-                      (_selectedIndex == 0) ? Colors.transparent : bottom,
-                  icon: Icon(Icons.person),
-                  label: 'Accounts',
-                ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.chat),
-                //   label: 'Chats',
-                // ),
-              ],
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-            ),
-            body: Stack(
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                        // height: MediaQuery.of(context).size.height * 0.9,
-                        child: Expanded(
-                            child: _pages().elementAt(_selectedIndex))),
-                    Divider(
-                      height: 1,
-                      color: Colors.grey,
-                    ),
-                  ],
-                ),
-                // Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: Theme(
-                //     data: Theme.of(context).copyWith(
-                //         canvasColor: (_selectedIndex == 0)
-                //             ? Colors.transparent
-                //             : Colors.white),
-                //     child: ,
-                //   ),
-                // ),
-              ],
-            ),
-          );
+    return Scaffold(
+      extendBody: (_selectedIndex == 0) ? true : false,
+      resizeToAvoidBottomInset: false,
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.red,
+        unselectedItemColor: (_selectedIndex == 0)
+            ? Colors.white
+            : Color(0xff0B0D0F).withOpacity(0.4),
+        selectedItemColor: (_selectedIndex == 0) ? Colors.white : appThemeColor,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            backgroundColor:
+                (_selectedIndex == 0) ? Colors.transparent : bottom,
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor:
+                (_selectedIndex == 0) ? Colors.transparent : bottom,
+            icon: Icon(Icons.favorite),
+            label: 'Favourites',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor:
+                (_selectedIndex == 0) ? Colors.transparent : bottom,
+            icon: Icon(Icons.call),
+            label: 'Calls',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor:
+                (_selectedIndex == 0) ? Colors.transparent : bottom,
+            icon: Icon(Icons.person),
+            label: 'Accounts',
+          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.chat),
+          //   label: 'Chats',
+          // ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+      body: Stack(
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                  // height: MediaQuery.of(context).size.height * 0.9,
+                  child: Expanded(child: _pages().elementAt(_selectedIndex))),
+              Divider(
+                height: 1,
+                color: Colors.grey,
+              ),
+            ],
+          ),
+          // Align(
+          //   alignment: Alignment.bottomCenter,
+          //   child: Theme(
+          //     data: Theme.of(context).copyWith(
+          //         canvasColor: (_selectedIndex == 0)
+          //             ? Colors.transparent
+          //             : Colors.white),
+          //     child: ,
+          //   ),
+          // ),
+        ],
+      ),
+    );
   }
 }

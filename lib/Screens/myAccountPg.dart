@@ -16,13 +16,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 class myAccountPg extends StatefulWidget {
-  final Coins getcoins;
-
   final String user_id;
   const myAccountPg({
     Key? key,
     required this.user_id,
-    required this.getcoins,
   }) : super(key: key);
 
   @override
@@ -118,9 +115,7 @@ class _myAccountPgState extends State<myAccountPg> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (_) => coinsPg(
-                                                      getCoins: widget.getcoins,
-                                                    )));
+                                                builder: (_) => coinsPg()));
                                       });
                                     },
                                     child: Padding(
@@ -158,6 +153,9 @@ class _myAccountPgState extends State<myAccountPg> {
                                             MaterialPageRoute(
                                                 builder: (_) => myWalletPg(
                                                       user_id: widget.user_id,
+                                                      coins: accountdetails
+                                                          .data[0].total_coins
+                                                          .toString(),
                                                     ))).then((value) {
                                           setState(() {
                                             my_account = myAccountService()
@@ -264,9 +262,7 @@ class _myAccountPgState extends State<myAccountPg> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) => coinsPg(
-                                              getCoins: widget.getcoins,
-                                            )));
+                                        builder: (_) => coinsPg()));
                               });
                             },
                             child: Center(

@@ -18,12 +18,12 @@ class Coins {
 
   bool status;
   String message;
-  List<Datum> data;
+  List<coinsData> data;
 
   factory Coins.fromJson(Map<String, dynamic> json) => Coins(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<coinsData>.from(json["data"].map((x) => coinsData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,8 +33,8 @@ class Coins {
       };
 }
 
-class Datum {
-  Datum({
+class coinsData {
+  coinsData({
     required this.planName,
     required this.totalCoin,
     required this.amount,
@@ -44,7 +44,7 @@ class Datum {
   String totalCoin;
   String amount;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory coinsData.fromJson(Map<String, dynamic> json) => coinsData(
         planName: json["plan_name"],
         totalCoin: json["total_coin"],
         amount: json["amount"],

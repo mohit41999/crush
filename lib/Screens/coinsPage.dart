@@ -1,17 +1,33 @@
 import 'package:crush_notion/Constants/constants.dart';
 import 'package:crush_notion/Model/coinsModel.dart';
+import 'package:crush_notion/Services/coinsServices.dart';
 import 'package:flutter/material.dart';
 
 class coinsPg extends StatefulWidget {
-  const coinsPg({Key? key, required this.getCoins}) : super(key: key);
-  final Coins getCoins;
+  const coinsPg({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _coinsPgState createState() => _coinsPgState();
 }
 
 class _coinsPgState extends State<coinsPg> {
-  Coins getcoins() => widget.getCoins;
+  List coinsDetails = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    setState(() {
+      coinsService().getCoins().then((value) {
+        setState(() {
+          coinsDetails = value.data;
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +122,7 @@ class _coinsPgState extends State<coinsPg> {
           Expanded(
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: getcoins().data.length,
+                itemCount: coinsDetails.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
@@ -147,7 +163,7 @@ class _coinsPgState extends State<coinsPg> {
                                     ),
                                   ),
                                   Text(
-                                    getcoins().data[index].totalCoin,
+                                    coinsDetails[index].totalCoin,
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                         color: Colors.black,
@@ -177,7 +193,7 @@ class _coinsPgState extends State<coinsPg> {
                                       ))),
                                   onPressed: () {},
                                   child: Text(
-                                    '\u{20B9}' + getcoins().data[index].amount,
+                                    '\u{20B9}' + coinsDetails[index].amount,
                                     style: TextStyle(color: Colors.white),
                                   )),
                             ),
